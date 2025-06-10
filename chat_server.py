@@ -2,9 +2,6 @@ import grpc
 from concurrent import futures
 import time
 import threading
-
-from pyexpat.errors import messages
-
 import chat_pb2
 import chat_pb2_grpc
 
@@ -12,7 +9,7 @@ class ChatService(chat_pb2_grpc.ChatServiceServicer):
     def __init__(self):
         self.messages = []
         self.user_stream = {}
-        self.lock = threading.Lock
+        self.lock = threading.Lock()
 
     def ReceiveMessages(self, request, context):
         usuario = request.user
@@ -33,14 +30,14 @@ class ChatService(chat_pb2_grpc.ChatServiceServicer):
         mensagem = request.message
         print(f"Nova mensagem de {mensagem.user}: {mensagem.content}")
 
-        while self.lock:
-            self.messages.append(messages)
+        with self.lock:
+            self.messages.append(mensagem)
 
         return chat_pb2.Empty()
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    chat_pb2_grpc.add_ChatServiceServicer_to_server(ChatService, server)
+    chat_pb2_grpc.add_ChatServiceServicer_to_server(ChatService(), server)
     server.add_insecure_port('[::]:50051')
     print("Servidor rotando da porta 50051...")
     server.start()
