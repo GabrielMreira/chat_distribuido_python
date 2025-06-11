@@ -1,8 +1,7 @@
 import grpc
 import threading
 import datetime
-import chat_pb2
-import chat_pb2_grpc
+from protos import chat_pb2, chat_pb2_grpc
 
 def receive_messages(stub, user):
     try:

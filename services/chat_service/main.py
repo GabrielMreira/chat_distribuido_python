@@ -2,8 +2,7 @@ import grpc
 from concurrent import futures
 import time
 import threading
-import chat_pb2
-import chat_pb2_grpc
+from protos import chat_pb2, chat_pb2_grpc
 
 class ChatService(chat_pb2_grpc.ChatServiceServicer):
     def __init__(self):
@@ -38,8 +37,8 @@ class ChatService(chat_pb2_grpc.ChatServiceServicer):
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     chat_pb2_grpc.add_ChatServiceServicer_to_server(ChatService(), server)
-    server.add_insecure_port('[::]:50051')
-    print("Servidor rotando da porta 50051...")
+    server.add_insecure_port('[::]:50052')
+    print("Servidor rotando da porta 50052...")
     server.start()
     server.wait_for_termination()
 
