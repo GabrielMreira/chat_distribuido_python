@@ -17,10 +17,14 @@ class ChatService(chat_pb2_grpc.ChatServiceServicer):
 
         try:
             while context.is_active():
-                while len(self.messages) > ultimo_index:
-                    mensagem = self.messages[ultimo_index]
-                    yield mensagem
-                    ultimo_index += 1
+                novas_mensagens = []
+                with self.lock:
+                    if len(self.messages) > ultimo_index:
+                        novas_mensagens = self.messages[ultimo_index:]
+                        ultimo_index = len(self.messages)
+
+                for msg in novas_mensagens:
+                    yield msg
                 time.sleep(0.1)
         except grpc.RpcError:
             print(f"Conexão com o  {usuario} finalizada")
