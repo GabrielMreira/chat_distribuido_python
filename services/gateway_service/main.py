@@ -2,7 +2,7 @@ import grpc
 from concurrent import futures
 from protos import chat_pb2, chat_pb2_grpc
 
-CHAT_SERVICE_ADDRESS = 'localhost:50052'
+CHAT_SERVICE_ADDRESS = 'chat_service:50052'
 
 
 class GatewayChatService(chat_pb2_grpc.ChatServiceServicer):

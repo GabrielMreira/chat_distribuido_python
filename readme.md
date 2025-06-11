@@ -28,3 +28,21 @@ Iniciar o client para troca de mensagens, o client pode ser iniciado em diversos
 ```
 python -m client.main
 ```
+
+## Execução com docker:
+
+Com o docker desktop instalado na maquina, rode o seguinte comando:
+
+```
+docker-compose up
+```
+
+Apos os containers estarem online, rode o seguinte comando para iniciar o ou os clientes:
+```
+python -m client.main
+```
+
+Para finalizar o docker aperte ```Ctrl + C``` e execute o seguinte comando:
+```
+docker-compose down
+```

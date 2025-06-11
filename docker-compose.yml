@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  chat_service:
+    build: .
+    command: python -m services.chat_service.main
+    networks:
+      - app_net
+
+  gateway_service:
+    build: .
+    command: python -m services.gateway_service.main
+    depends_on:
+      - chat_service
+    ports:
+      - "50051:50051"
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: 'bridge'
+
